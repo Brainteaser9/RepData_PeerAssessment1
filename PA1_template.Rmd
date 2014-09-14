@@ -20,6 +20,7 @@ stepsperday <- aggregate(.~date,data=data[,1:2],sum)
 head(stepsperday)
 barplot(stepsperday$steps)
 mean(stepsperday$steps)
+median(stepsperday$steps)
 ```
 
 

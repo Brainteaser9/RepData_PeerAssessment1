@@ -51,6 +51,14 @@ mean(stepsperday$steps)
 ## [1] 10766
 ```
 
+```r
+median(stepsperday$steps)
+```
+
+```
+## [1] 10765
+```
+
 
 
 
