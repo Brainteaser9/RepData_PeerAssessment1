@@ -7,10 +7,21 @@ output:
 
 
 ## Loading and preprocessing the data
-
-
+```{r loaddata}
+library(data.table)
+data <- read.csv("activity.csv", header = TRUE)
+data$date <- as.Date(strptime(data$date, "%Y-%m-%d"))
+head(data)
+```
 
 ## What is mean total number of steps taken per day?
+```{r mean}
+stepsperday <- aggregate(.~date,data=data[,1:2],sum)
+head(stepsperday)
+barplot(stepsperday$steps)
+mean(stepsperday$steps)
+```
+
 
 
 
