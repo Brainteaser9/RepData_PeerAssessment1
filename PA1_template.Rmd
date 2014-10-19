@@ -18,20 +18,65 @@ head(data)
 ```{r mean}
 stepsperday <- aggregate(.~date,data=data[,1:2],sum)
 head(stepsperday)
-barplot(stepsperday$steps)
+barplot(stepsperday$steps, las=2, names.arg=stepsperday$date)
+title(main="Total steps per each day")
 mean(stepsperday$steps)
 median(stepsperday$steps)
 ```
 
-
-
-
 ## What is the average daily activity pattern?
+```{r pattern}
+avgstepsperint <- aggregate(.~interval, data=data[,c(1,3)], mean)
+head(avgstepsperint)
+plot(avgstepsperint$interval, avgstepsperint$steps, type="l", ylab="", xlab="", las=1)
+title(main="Average daily activity pattern", ylab="Average steps", xlab="Intervals")
+```
 
-
+#### The following 5-minute interval contains the maximum number of steps:
+```{r maxsteps}
+avgstepsperint$interval[avgstepsperint$steps == max(avgstepsperint$steps)]
+```
 
 ## Imputing missing values
 
+#### Total number of missing values in the data is 2304 as you can see in the below result:
+```{r numNA}
+missing <- is.na(data)
+table(missing)
+```
 
+#### The following few steps will create a new dataset which is the same as the original, but all the NAs are replaced by the mean of the steps per each interval:
+```{r fillinginmissing}
+tempdata <- merge(subset(data, missing), avgstepsperint, by = "interval")
+tempdata <- tempdata[order(tempdata[,3], tempdata[,1]),]
+head(tempdata)
+data2 <- data
+head(data2)
+data2[missing] <- tempdata[,4]
+missing2 <- is.na(data2)
+table(missing2)
+head(data2)
+```
+
+#### Total number of steps per day taken based on the new dataset
+```{r mean2}
+stepsperday2 <- aggregate(.~date,data=data2[,1:2],sum)
+head(stepsperday2)
+barplot(stepsperday2$steps, las=2, names.arg=stepsperday2$date)
+title(main="Total steps per each day")
+mean(stepsperday2$steps)
+median(stepsperday2$steps)
+```
+
+#### What is the impact of imputing missing data on the estimates of the total daily number of steps?
+Total daily number of steps have been increased on those days where any NAs were replaced by the mean of the average steps per the particular interval.
 
 ## Are there differences in activity patterns between weekdays and weekends?
+```{r weekdays}
+Sys.setlocale("LC_TIME", "C")
+day <- factor(c("weekday", "weekend"))
+data2[weekdays(data2$date) %in% c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday"),4] <- "weekday"
+data2[weekdays(data2$date) %in% c("Sunday", "Saturday"),4] <- "weekend"
+head(data2)
+table(data2$day)
+```
