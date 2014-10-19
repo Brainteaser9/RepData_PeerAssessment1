@@ -77,6 +77,7 @@ Sys.setlocale("LC_TIME", "C")
 day <- factor(c("weekday", "weekend"))
 data2[weekdays(data2$date) %in% c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday"),4] <- "weekday"
 data2[weekdays(data2$date) %in% c("Sunday", "Saturday"),4] <- "weekend"
+colnames(data2)[4] <- "day"
 head(data2)
 table(data2$day)
 ```

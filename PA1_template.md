@@ -208,4 +208,43 @@ median(stepsperday2$steps)
 ## [1] 10766
 ```
 
+#### What is the impact of imputing missing data on the estimates of the total daily number of steps?
+Total daily number of steps have been increased on those days where any NAs were replaced by the mean of the average steps per the particular interval.
+
 ## Are there differences in activity patterns between weekdays and weekends?
+
+```r
+Sys.setlocale("LC_TIME", "C")
+```
+
+```
+## [1] "C"
+```
+
+```r
+day <- factor(c("weekday", "weekend"))
+data2[weekdays(data2$date) %in% c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday"),4] <- "weekday"
+data2[weekdays(data2$date) %in% c("Sunday", "Saturday"),4] <- "weekend"
+colnames(data2)[4] <- "day"
+head(data2)
+```
+
+```
+##     steps       date interval     day
+## 1 1.71698 2012-10-01        0 weekday
+## 2 0.33962 2012-10-01        5 weekday
+## 3 0.13208 2012-10-01       10 weekday
+## 4 0.15094 2012-10-01       15 weekday
+## 5 0.07547 2012-10-01       20 weekday
+## 6 2.09434 2012-10-01       25 weekday
+```
+
+```r
+table(data2$day)
+```
+
+```
+## 
+## weekday weekend 
+##   12960    4608
+```

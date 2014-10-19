@@ -173,9 +173,31 @@ title(main=&quot;Total steps per each day&quot;)</code></pre>
 <pre class="r"><code>median(stepsperday2$steps)</code></pre>
 <pre><code>## [1] 10766</code></pre>
 </div>
+<div id="what-is-the-impact-of-imputing-missing-data-on-the-estimates-of-the-total-daily-number-of-steps" class="section level4">
+<h4>What is the impact of imputing missing data on the estimates of the total daily number of steps?</h4>
+<p>Total daily number of steps have been increased on those days where any NAs were replaced by the mean of the average steps per the particular interval.</p>
+</div>
 </div>
 <div id="are-there-differences-in-activity-patterns-between-weekdays-and-weekends" class="section level2">
 <h2>Are there differences in activity patterns between weekdays and weekends?</h2>
+<pre class="r"><code>Sys.setlocale(&quot;LC_TIME&quot;, &quot;C&quot;)</code></pre>
+<pre><code>## [1] &quot;C&quot;</code></pre>
+<pre class="r"><code>day &lt;- factor(c(&quot;weekday&quot;, &quot;weekend&quot;))
+data2[weekdays(data2$date) %in% c(&quot;Monday&quot;, &quot;Tuesday&quot;, &quot;Wednesday&quot;, &quot;Thursday&quot;, &quot;Friday&quot;),4] &lt;- &quot;weekday&quot;
+data2[weekdays(data2$date) %in% c(&quot;Sunday&quot;, &quot;Saturday&quot;),4] &lt;- &quot;weekend&quot;
+colnames(data2)[4] &lt;- &quot;day&quot;
+head(data2)</code></pre>
+<pre><code>##     steps       date interval     day
+## 1 1.71698 2012-10-01        0 weekday
+## 2 0.33962 2012-10-01        5 weekday
+## 3 0.13208 2012-10-01       10 weekday
+## 4 0.15094 2012-10-01       15 weekday
+## 5 0.07547 2012-10-01       20 weekday
+## 6 2.09434 2012-10-01       25 weekday</code></pre>
+<pre class="r"><code>table(data2$day)</code></pre>
+<pre><code>## 
+## weekday weekend 
+##   12960    4608</code></pre>
 </div>
 
 
